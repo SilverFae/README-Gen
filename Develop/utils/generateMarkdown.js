@@ -1,4 +1,7 @@
 // TODO: Create a function that returns a license badge based on which license is passed in
+
+const { default: ListPrompt } = require("inquirer/lib/prompts/list");
+
 // If there is no license, return an empty string
 function renderLicenseBadge(license) {
   if (license){
@@ -16,19 +19,52 @@ function renderLicenseBadge(license) {
 // TODO: Create a function that returns the license link
 // If there is no license, return an empty string
 function renderLicenseLink(license) {
-
+  if (license){
+    const links = {
+      'MIT': '[MIT License](https://opensource.org/license/mit/)',
+      'Boost': '[Boost License](https://opensource.org/license/bsl1-0-html/)',
+      'Elcipse': '[Eclipse License](https://opensource.org/license/epl-1-0/)',
+      'Apache 2.0': '[Apache 2.0 License](https://opensource.org/license/apache-2-0/)',
+    };
+    return links[license || ''];
+  }
+  return '';
 }
 
 // TODO: Create a function that returns the license section of README
 // If there is no license, return an empty string
 function renderLicenseSection(license) {
-  
+  if(license){
+    const badge = renderLicenseBadge(license);
+    const link = renderLicenseLink(license);
+    return 
+    `## License  
+    ${badge}
+    This project is licensed under ${link} license.
+     `;
+  }
 }
 
 // TODO: Create a function to generate markdown for README
 function generateMarkdown(data) {
   return `# ${data.title}
-
+  ## Description
+  ${data.description}
+  ## Table of Contents
+  ${data.tableOfContents}
+  ## Installation
+  ${data.installation}
+  ## Usage
+  ${data.usage}
+  ${renderLicenseSection(data.license)}
+  ## Contributing
+  ${data.contributing}
+  ## Tests
+  ${data.tests}
+  ## Questions
+  For any furthur questions please reach out
+  Github : [@${data.github}](https://github.com/${data.github})
+  Email: ${data.email}
 `;
 }
 
